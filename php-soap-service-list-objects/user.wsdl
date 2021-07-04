@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- WSDL File for web service User -->
+<definitions 
+	xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:ns1="rm:type"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:tns="rm:soap"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="rm:soap"
+	name="User">
+    <types>
+	  <schema targetNamespace="rm:type" 
+			xmlns="http://www.w3.org/2001/XMLSchema" 
+			xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" 
+			xmlns:tns="rm:type" 
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+			<!-- Data types used for web service parameters. -->			
+			<complexType name="UserListRec">
+				<sequence>
+					<element name="User" type="ns1:UserType" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</complexType>
+			 
+			<complexType name="UserType">
+				<sequence>
+					<element name="LastName" type="xsd:string" />
+					<element name="FirstName" type="xsd:string" />
+					<element name="Email" type="xsd:string" />
+				</sequence>
+			</complexType>
+			
+			<complexType name="Void">
+				<sequence>
+				</sequence>
+			</complexType>
+        </schema>
+     </types>
+
+	<message name="UserEndpoint_getUserList">
+        <part name="input" type="ns1:Void"/>
+    </message>
+	
+    <!-- Output message(parameter) -->
+    <message name="UserEndpoint_getUserListResponse">
+        <part name="Users" type="ns1:UserListRec"/>
+    </message>
+
+    <!-- Description of various methods/operations of the web service -->
+    <portType name="UserEndpoint">
+        <operation name="getUserList" parameterOrder="inPara">
+			<input message="tns:UserEndpoint_getUserList"/>
+            <output message="tns:UserEndpoint_getUserListResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Description of various methods/operations of the web service -->
+    <binding name="UserEndpointBinding" type="tns:UserEndpoint">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getUserList">
+            <soap:operation/>
+			<input>
+                <soap:body use="literal" namespace="rm:soap"/>
+            </input>
+            <output>
+                <soap:body use="literal" namespace="rm:soap"/>
+            </output>
+        </operation>
+    </binding>
+	
+    <service name="User">
+       <port name="UserEndpointPort" binding="tns:UserEndpointBinding">
+           <soap:address location="http://localhost/php-soap-service-list-objects/user_ws.php"/>
+       </port>
+   </service>
+</definitions>

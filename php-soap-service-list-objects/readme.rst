@@ -1,0 +1,1 @@
+You can read tutorial https://roytuts.com/how-to-return-a-list-of-objects-from-soap-web-service-using-php/
